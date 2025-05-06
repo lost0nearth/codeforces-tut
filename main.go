@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"codeforces-tut/segtree/part1/c"
+	"codeforces-tut/segtree/part2/a"
 	"fmt"
 	"os"
 	"strconv"
@@ -27,22 +27,16 @@ func main() {
 		nums[i], _ = strconv.Atoi(parts[i])
 	}
 
-	st := c.NewSegTree(nums)
+	st := a.NewSegTree(nums)
+	fmt.Fprintln(writer, st.Query())
 
 	for range m {
 		s, _ = reader.ReadString('\n')
 		parts = strings.Fields(s)
-		if parts[0] == "1" {
-			i, _ := strconv.Atoi(parts[1])
-			v, _ := strconv.Atoi(parts[2])
+		i, _ := strconv.Atoi(parts[0])
+		v, _ := strconv.Atoi(parts[1])
 
-			st.Update(i, v)
-		} else {
-			l, _ := strconv.Atoi(parts[1])
-			r, _ := strconv.Atoi(parts[2])
-
-			res := st.Query(l, r)
-			fmt.Fprintln(writer, res.Val(), res.Count())
-		}
+		st.Update(i, v)
+		fmt.Fprintln(writer, st.Query())
 	}
 }
