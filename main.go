@@ -2,11 +2,9 @@ package main
 
 import (
 	"bufio"
-	"codeforces-tut/segtree/part3/b"
+	"codeforces-tut/segtree/part3/c"
 	"fmt"
 	"os"
-	"strconv"
-	"strings"
 )
 
 func main() {
@@ -14,25 +12,30 @@ func main() {
 	writer := bufio.NewWriter(os.Stdout)
 	defer writer.Flush()
 
-	s, _ := reader.ReadString('\n')
-	parts := strings.Fields(s)
-	n, _ := strconv.Atoi(parts[0])
+	var n int
+	fmt.Fscan(reader, &n)
 
-	nums := make([]int, n)
-	s, _ = reader.ReadString('\n')
-	parts = strings.Fields(s)
-	for i := 0; i < n; i++ {
-		nums[i], _ = strconv.Atoi(parts[i])
+	arr := make([]int, 2*n)
+	for i := range arr {
+		fmt.Fscan(reader, &arr[i])
 	}
 
-	arr := make([]any, n)
+	pos := make([]int, n+1)
+	for i := range pos {
+		pos[i] = -1
+	}
+	res := make([]any, n+1)
 
-	st := b.NewSegTree(n)
-	for i := n - 1; i >= 0; i-- {
-		pos := st.Query(nums[i] + 1)
-		st.Update(pos)
-		arr[i] = pos + 1
+	st := c.NewSegTree(2*n)
+
+	for i, v := range arr {
+		if pos[v] == -1 {
+			pos[v] = i
+		} else {
+			res[v] = st.Query(pos[v], i)
+			st.Update(pos[v])
+		}
 	}
 
-	fmt.Fprintln(writer, arr...)
+	fmt.Fprintln(writer, res[1:]...)
 }
