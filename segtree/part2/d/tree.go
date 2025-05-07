@@ -33,7 +33,7 @@ func (st *SegTree) update(node, lo, hi, i, v int) {
 }
 
 func (st *SegTree) query(node, lo, hi, l, r, x int) int {
-	if r <= lo || hi <= l {
+	if hi <= l {
 		return -1
 	}
 	if lo+1 == hi {
